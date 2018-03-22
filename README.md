@@ -1,4 +1,4 @@
-yii2-markdown
+yii2-markdown (fork kartik-v/yii2-markdown)
 =============
 
 [![Latest Stable Version](https://poser.pugx.org/kartik-v/yii2-markdown/v/stable)](https://packagist.org/packages/kartik-v/yii2-markdown)
@@ -42,13 +42,13 @@ Read this [web tip /wiki](http://webtips.krajee.com/setting-composer-minimum-sta
 Either run
 
 ```
-$ php composer.phar require kartik-v/yii2-markdown "dev-master"
+$ php composer.phar require opotemkin/yii2-markdown "dev-master"
 ```
 
 or add
 
 ```
-"kartik-v/yii2-markdown": "dev-master"
+"opotemkin/yii2-markdown": "dev-master"
 ```
 
 to the ```require``` section of your `composer.json` file.
