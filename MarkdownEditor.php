@@ -486,19 +486,12 @@ EOT;
     protected function getFooterMessage()
     {
         $bullet = '<i class="glyphicon glyphicon-arrow-right"></i>';
-        $link1 = '<a href="http://michelf.ca/projects/php-markdown/extra/" target="_blank">' . Yii::t('kvmarkdown', 'PHP Markdown Extra') . '</a>';
-        $link2 = '<a href="http://michelf.ca/projects/php-smartypants/typographer/" target="_blank">' . Yii::t('kvmarkdown', 'PHP SmartyPants Typographer') . '</a>';
-        $link = $this->_module->smartyPants ? $link1 . ' ' . Yii::t('kvmarkdown', 'and') . ' ' . $link2 : $link1;
-        $msg1 = Yii::t('kvmarkdown', '{bullet} You may use {link} syntax.', [
-            'bullet' => $bullet,
-            'link' => $link
-        ]);
         $keys = '<kbd>' . Yii::t('kvmarkdown', 'CTRL-Z') . '</kbd> / <kbd>' . Yii::t('kvmarkdown', 'CTRL-Y') . '</kbd>';
         $msg2 = Yii::t('kvmarkdown', '{bullet} To undo / redo, press {keys}. You can also undo most button actions by clicking it again.', [
             'bullet' => $bullet,
             'keys' => $keys
         ]);
-        return $msg1 . '<br>' . $msg2;
+        return $msg2;
     }
 
     /**
@@ -534,7 +527,7 @@ EOT;
         // Move iframe at the end of the body
         $view->registerJs('jQuery("body").append(jQuery("#' . $this->_iframeId . '"));');
         // Initialize markdown editor after iframe is loaded
-        $js = 'jQuery(window).load(function(){initEditor(' . Json::encode($params) . ')});';
+        $js = 'jQuery(window).on('load', function(){initEditor(' . Json::encode($params) . ')});';
         $view->registerJs($js);
     }
 
@@ -547,74 +540,25 @@ EOT;
             return;
         }
 
-        $heading = function ($n) {
-            return [
-                'label' => Yii::t('kvmarkdown', 'Heading {n}', ['n' => $n]),
-                'options' => [
-                    'class' => 'kv-heading-' . $n,
-                    'title' => Yii::t('kvmarkdown', 'Heading {n} Style', ['n' => $n])
-                ]
-            ];
-        };
-
         $this->toolbar = [
             [
                 'buttons' => [
                     self::BTN_BOLD => ['icon' => 'bold', 'title' => Yii::t('kvmarkdown', 'Bold')],
                     self::BTN_ITALIC => ['icon' => 'italic', 'title' => Yii::t('kvmarkdown', 'Italic')],
-                    self::BTN_PARAGRAPH => ['icon' => 'font', 'title' => Yii::t('kvmarkdown', 'Paragraph')],
-                    self::BTN_NEW_LINE => ['icon' => 'text-height', 'title' => Yii::t('kvmarkdown', 'Append Line Break')],
-                    self::BTN_HEADING => ['icon' => 'header', 'title' => Yii::t('kvmarkdown', 'Heading'), 'items' => [
-                        self::BTN_H1 => $heading(1),
-                        self::BTN_H2 => $heading(2),
-                        self::BTN_H3 => $heading(3),
-                        self::BTN_H4 => $heading(4),
-                        self::BTN_H5 => $heading(5),
-                        self::BTN_H6 => $heading(6),
-                    ]],
-                ],
-            ],
-            [
-                'buttons' => [
-                    self::BTN_LINK => ['icon' => 'link', 'title' => Yii::t('kvmarkdown', 'URL/Link')],
-                    self::BTN_IMAGE => ['icon' => 'picture', 'title' => Yii::t('kvmarkdown', 'Image')],
-                ],
-            ],
-            [
-                'buttons' => [
-                    self::BTN_INDENT_L => ['icon' => 'indent-left', 'title' => Yii::t('kvmarkdown', 'Indent Text')],
-                    self::BTN_INDENT_R => ['icon' => 'indent-right', 'title' => Yii::t('kvmarkdown', 'Unindent Text')],
+
                 ],
             ],
             [
                 'buttons' => [
                     self::BTN_UL => ['icon' => 'list', 'title' => Yii::t('kvmarkdown', 'Bulleted List')],
                     self::BTN_OL => ['icon' => 'list-alt', 'title' => Yii::t('kvmarkdown', 'Numbered List')],
-                    self::BTN_DL => ['icon' => 'th-list', 'title' => Yii::t('kvmarkdown', 'Definition List')],
                 ],
             ],
             [
                 'buttons' => [
-                    self::BTN_FOOTNOTE => ['icon' => 'edit', 'title' => Yii::t('kvmarkdown', 'Footnote')],
-                    self::BTN_QUOTE => ['icon' => 'comment', 'title' => Yii::t('kvmarkdown', 'Block Quote')],
+                    self::BTN_NEW_LINE => ['icon' => 'text-height', 'title' => Yii::t('kvmarkdown', 'Append Line Break')],
+
                 ],
-            ],
-            [
-                'buttons' => [
-                    self::BTN_CODE => ['label' => self::ICON_CODE, 'title' => Yii::t('kvmarkdown', 'Inline Code'), 'encodeLabel' => false],
-                    self::BTN_CODE_BLOCK => ['icon' => 'sound-stereo', 'title' => Yii::t('kvmarkdown', 'Code Block')],
-                ],
-            ],
-            [
-                'buttons' => [
-                    self::BTN_HR => ['label' => self::ICON_HR, 'title' => Yii::t('kvmarkdown', 'Horizontal Line'), 'encodeLabel' => false],
-                ],
-            ],
-            [
-                'buttons' => [
-                    self::BTN_MAXIMIZE => ['icon' => 'fullscreen', 'title' => Yii::t('kvmarkdown', 'Toggle full screen'), 'data-enabled' => true]
-                ],
-                'options' => ['class' => 'pull-right']
             ],
         ];
     }
